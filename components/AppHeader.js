@@ -45,7 +45,6 @@ export function AppHeader({ title, showBack, onBack, right }) {
 const styles = StyleSheet.create({
     root: {
         paddingVertical: 12,
-        paddingHorizontal: 8,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
         minWidth: 40,
         paddingVertical: 8,
     },
-    backText: { color: colors.link },
+    backText: { color: colors.link, fontSize: 20, fontWeight: '700' },
     title: {
         flex: 1,
         textAlign: 'center',

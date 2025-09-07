@@ -61,8 +61,9 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
         <>
             <ScrollView>
                 <View style={styles.stack}>
-                    <Text style={styles.scTitle}>{sc.id}: {sc.shortTitle} ({sc.level})</Text>
-
+                    <View style={styles.row}>
+                        <Text style={styles.scTitle}>{sc.id}: {sc.shortTitle}</Text><Text style={styles.scLevel}>({sc.level})</Text>
+                    </View>
                     {!!sc.description && <Text style={styles.p}>{sc.description}</Text>}
 
                     {renderImagesExample(sc.example)}
@@ -91,7 +92,7 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
 
 
                 </View>
-            </ScrollView>
+            </ScrollView >
 
             <View style={styles.row}>
                 <Pressable
@@ -150,14 +151,15 @@ const styles = StyleSheet.create({
     stackSm: { flex: 'row', gap: 12 },
 
     scTitle: { color: colors.text, fontWeight: '700', fontSize: 18 },
-    p: { color: colors.text },
-    subtle: { color: colors.textSubtle },
+    scLevel: { color: colors.primary, fontWeight: '700', fontSize: 18 },
+    p: { color: colors.text, fontSize: 18 },
+    subtle: { color: colors.textSubtle, fontSize: 18 },
 
     links: { gap: 6, marginTop: 8 },
-    h6: { color: colors.text, fontWeight: '600' },
-    link: { color: colors.link },
+    h6: { color: colors.text, fontWeight: '600', fontSize: 18 },
+    link: { color: colors.link, fontSize: 18 },
 
-    row: { flexDirection: 'row', gap: 12, marginTop: 12 },
+    row: { flexDirection: 'row', gap: 6, marginTop: 12 },
     primaryBtn: { backgroundColor: colors.primary, borderRadius: 15, paddingVertical: 14, alignItems: 'center', flex: 1 },
     primaryBtnText: { color: colors.onPrimary, fontWeight: '700', fontSize: 16 },
     secondaryBtn: { backgroundColor: colors.surface, borderRadius: 15, borderWidth: 1, borderColor: colors.primary, paddingVertical: 14, alignItems: 'center', flex: 1, fontWeight: '700' },
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     card: { backgroundColor: colors.surface, borderRadius: 12, padding: 12 },
 
     exampleCard: { backgroundColor: colors.surface, borderRadius: 12, overflow: 'hidden' },
-    exampleImg: { width: '100%', height: 300, backgroundColor: colors.surface, resizeMode: 'contain' },
+    exampleImg: { width: '100%', height: 200, backgroundColor: colors.surface, resizeMode: 'cover' },
     exampleCapFail: { backgroundColor: colors.error },
     exampleCapPass: { backgroundColor: colors.success },
     exampleCapWrap: { padding: 12 },

@@ -59,7 +59,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer theme={navTheme}>
           <AnnouncementRegion />

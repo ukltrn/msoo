@@ -3,112 +3,149 @@ import Guideline from '../models/Guideline';
 import SuccessCriterion from '../models/SuccessCriterion';
 import Quiz from '../models/Quiz';
 
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 /*                                PRINCIPLE 1                                 */
-/*                              (Perceivable)                                 */
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 
-/* ---------- Guideline 1.1 — Text Alternatives (3 SC) ---------- */
-const sc_1_1_1 = new SuccessCriterion(
-    '1.1.1',
-    'Non-text Content',
+//     Guideline 1.1: Text Alternatives (split 1.1.1 into a/b/c)    
+
+const sc_1_1_1a = new SuccessCriterion(
+    '1.1.1a',
+    'Product Images',
     'A',
-    'Provide text alternatives for any non-text content so it can be changed into other forms.',
+    'Meaningful images must have descriptive alt text that conveys their purpose.',
     {
-        type: '',
-        note: 'Examples for SC 1.1.1',
+        type: 'images',
+        note: 'Examples for 1.1.1a Informative images',
         items: [
-            { id: 'pass', uri: 'pass_1_1_1.png', alt: 'Image with descriptive alt text', caption: 'Informative image has alt text', isPassing: true },
-            { id: 'fail', uri: 'fail_1_1_1.png', alt: 'Image without alt text', caption: 'No alt text provided', isPassing: false },
+            {
+                id: 'pass',
+                uri: require('../assets/examples/pass_1_1_1_a.png'),
+                alt: 'Image with descriptive alt text',
+                caption: 'Informative image has alt text',
+                isPassing: true
+            },
+            {
+                id: 'fail',
+                uri: require('../assets/examples/fail_1_1_1_a.png'),
+                alt: 'Image without alt text',
+                caption: 'No alt text provided',
+                isPassing: false
+            },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#non-text-content',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non text content.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#non text content',
     }
 );
 
-const sc_1_1_2 = new SuccessCriterion(
-    '1.1.2',
-    'Controls and Inputs (Alt)',
+const sc_1_1_1b = new SuccessCriterion(
+    '1.1.1b',
+    'Controls & Inputs (Image Buttons)',
     'A',
-    'Controls and inputs that are images must have accessible names that describe their purpose.',
+    'Image based controls must expose an accessible name describing the action (e.g., “Search”).',
     {
-        type: '',
-        note: 'Examples for SC 1.1.2 (alt for image buttons)',
+        type: 'images',
+        note: 'Examples for 1.1.1b   Controls & inputs',
         items: [
-            { id: 'pass', uri: 'pass_1_1_2.png', alt: 'Search icon button with accessible name', caption: 'Icon button has an accessible name', isPassing: true },
-            { id: 'fail', uri: 'fail_1_1_2.png', alt: 'Image button with no label', caption: 'Image button lacks an accessible name', isPassing: false },
+            {
+                id: 'pass',
+                uri: require('../assets/examples/pass_1_1_1_b.png'),
+                alt: 'Magnifying glass icon button labeled “Search”',
+                caption: 'Icon button labeled by function, not appearance.',
+                isPassing: true,
+            },
+            {
+                id: 'fail',
+                uri: require('../assets/examples/fail_1_1_1_b.png'),
+                alt: 'Icon button with no accessible name',
+                caption: 'Relies on icon only; no accessible name.',
+                isPassing: false,
+            },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#non-text-content',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non text content.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#non text content',
     }
 );
 
-const sc_1_1_3 = new SuccessCriterion(
-    '1.1.3',
+const sc_1_1_1c = new SuccessCriterion(
+    '1.1.1c',
     'Decorative Images',
     'A',
-    'Purely decorative images are implemented so they are ignored by assistive technologies.',
+    'Purely decorative images should be hidden from assistive technologies (empty alt / not focusable).',
     {
-        type: '',
-        note: 'Examples for SC 1.1.3 (decorative)',
+        type: 'images',
+        note: 'Examples for 1.1.1c   Decorative images',
         items: [
-            { id: 'pass', uri: 'pass_1_1_3.png', alt: '', caption: 'Decorative image is hidden from AT', isPassing: true },
-            { id: 'fail', uri: 'fail_1_1_3.png', alt: 'Decorative flourish', caption: 'Decorative image exposed to AT', isPassing: false },
+            {
+                id: 'pass',
+                uri: require('../assets/examples/pass_1_1_1_c.png'),
+                alt: '',
+                caption: 'Decoration is ignored by assistive tech (empty alt).',
+                isPassing: true,
+            },
+            {
+                id: 'fail',
+                uri: require('../assets/examples/fail_1_1_1_c.png'),
+                alt: 'Decorative illustration exposed to Assistive Technology',
+                caption: 'Decorative image announced unnecessarily.',
+                isPassing: false,
+            },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#non-text-content',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/non text content.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#non text content',
     }
 );
+
 const quiz_1_1 = new Quiz('1.1', [
     {
         id: 'q1',
-        stem: 'What is the purpose of providing alt text for images?',
+        stem: 'What should meaningful images include to meet 1.1.1?',
         options: [
-            { id: 'a', label: 'To improve SEO only', isCorrect: false },
-            { id: 'b', label: 'To describe images for users who cannot see them', isCorrect: true },
-            { id: 'c', label: 'To make images load faster', isCorrect: false },
+            { id: 'a', label: 'Descriptive alt text', isCorrect: true },
+            { id: 'b', label: 'A filename as alt', isCorrect: false },
+            { id: 'c', label: 'No alt text', isCorrect: false },
         ],
     },
     {
         id: 'q2',
-        stem: 'Which image does not require alt text?',
+        stem: 'How should purely decorative images be handled?',
         options: [
-            { id: 'a', label: 'A decorative border image', isCorrect: true },
-            { id: 'b', label: 'A chart conveying important data', isCorrect: false },
-            { id: 'c', label: 'A product photo in an e-commerce site', isCorrect: false },
+            { id: 'a', label: 'Alt text “decorative”', isCorrect: false },
+            { id: 'b', label: 'Empty alt (alt="") or hidden from AT', isCorrect: true },
+            { id: 'c', label: 'Describe the style in detail', isCorrect: false },
         ],
     },
     {
         id: 'q3',
-        stem: 'If an image is a button (like a magnifying glass for Search), the alt text should…',
+        stem: 'An image is used as a Search button (magnifying glass). The text alternative should…',
         options: [
-            { id: 'a', label: 'Say “magnifying glass”', isCorrect: false },
-            { id: 'b', label: 'Describe the function, like “Search”', isCorrect: true },
-            { id: 'c', label: 'Be left empty', isCorrect: false },
+            { id: 'a', label: 'Be left empty', isCorrect: false },
+            { id: 'b', label: 'Describe the icon shape', isCorrect: false },
+            { id: 'c', label: 'Name the function: “Search”', isCorrect: true },
         ],
     },
     {
         id: 'q4',
-        stem: 'What happens if decorative images are given alt text by mistake?',
+        stem: 'A chart conveys important data. Best approach for 1.1.1?',
         options: [
-            { id: 'a', label: 'It improves the user experience', isCorrect: false },
-            { id: 'b', label: 'It may add noise for screen reader users', isCorrect: true },
-            { id: 'c', label: 'It has no effect at all', isCorrect: false },
+            { id: 'a', label: 'Very long alt with all numbers', isCorrect: false },
+            { id: 'b', label: 'Provide a text summary or data table', isCorrect: true },
+            { id: 'c', label: 'Rely on color differences only', isCorrect: false },
         ],
     },
     {
         id: 'q5',
-        stem: 'Which is the correct way to mark a purely decorative image?',
+        stem: 'Which is acceptable alt text for a company logo linking home?',
         options: [
-            { id: 'a', label: 'Add alt text “decorative”', isCorrect: false },
-            { id: 'b', label: 'Leave alt empty (alt="")', isCorrect: true },
-            { id: 'c', label: 'Omit the alt attribute entirely', isCorrect: false },
+            { id: 'a', label: 'Company name (e.g., “Acme Home”)', isCorrect: true },
+            { id: 'b', label: 'IMG_00321.png', isCorrect: false },
+            { id: 'c', label: 'Logo', isCorrect: false },
         ],
     },
 ]);
@@ -116,17 +153,18 @@ const quiz_1_1 = new Quiz('1.1', [
 const g_1_1 = new Guideline(
     '1.1',
     'Text Alternatives',
-    'Provide text alternatives for non-text content.',
-    [sc_1_1_1, sc_1_1_2, sc_1_1_3],
+    'Provide text alternatives for non text content.',
+    [sc_1_1_1a, sc_1_1_1b, sc_1_1_1c],
     quiz_1_1
 );
 
-/* ---------- Guideline 1.2 — Time-based Media (3 SC, A/AA only) ---------- */
+
+/*            Guideline 1.2   Time based Media (3 SC, A/AA only)            */
 const sc_1_2_1 = new SuccessCriterion(
     '1.2.1',
-    'Audio-only and Video-only (Prerecorded)',
+    'Audio only and Video only (Prerecorded)',
     'A',
-    'Provide alternatives for prerecorded audio-only and video-only content.',
+    'Provide alternatives for prerecorded audio only and video only content.',
     {
         type: '',
         note: 'Examples for SC 1.2.1',
@@ -136,8 +174,8 @@ const sc_1_2_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio-only-and-video-only-prerecorded.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#audio-only-and-video-only-prerecorded',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio only and video only prerecorded.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#audio only and video only prerecorded',
     }
 );
 
@@ -155,8 +193,8 @@ const sc_1_2_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#captions-prerecorded',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/captions prerecorded.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#captions prerecorded',
     }
 );
 
@@ -174,20 +212,20 @@ const sc_1_2_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#audio-description-or-media-alternative-prerecorded',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio description or media alternative prerecorded.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#audio description or media alternative prerecorded',
     }
 );
 
 const g_1_2 = new Guideline(
     '1.2',
-    'Time-based Media',
-    'Provide alternatives for time-based media so information is accessible.',
+    'Time based Media',
+    'Provide alternatives for time based media so information is accessible.',
     [sc_1_2_1, sc_1_2_2, sc_1_2_3],
     null
 );
 
-/* ---------- Guideline 1.3 — Adaptable (3 SC) ---------- */
+/*            Guideline 1.3   Adaptable (3 SC)            */
 const sc_1_3_1 = new SuccessCriterion(
     '1.3.1',
     'Info and Relationships',
@@ -202,8 +240,8 @@ const sc_1_3_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#info-and-relationships',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/info and relationships.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#info and relationships',
     }
 );
 
@@ -221,8 +259,8 @@ const sc_1_3_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#meaningful-sequence',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/meaningful sequence.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#meaningful sequence',
     }
 );
 
@@ -240,8 +278,8 @@ const sc_1_3_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/sensory-characteristics.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#sensory-characteristics',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/sensory characteristics.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#sensory characteristics',
     }
 );
 
@@ -263,12 +301,12 @@ const sc_1_4_2 = new SuccessCriterion(
         note: 'Examples for SC 1.4.2',
         items: [
             { id: 'pass', uri: 'pass_1_4_2.png', alt: 'Audio control present', caption: 'User can pause or stop audio', isPassing: true },
-            { id: 'fail', uri: 'fail_1_4_2.png', alt: 'Auto-playing audio no controls', caption: 'No user control over audio', isPassing: false },
+            { id: 'fail', uri: 'fail_1_4_2.png', alt: 'Auto playing audio no controls', caption: 'No user control over audio', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio-control.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#audio-control',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/audio control.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#audio control',
     }
 );
 
@@ -283,23 +321,23 @@ const sc_1_4_1 = new SuccessCriterion(
         items: [
             {
                 id: 'pass',
-                uri: 'https://picsum.photos/seed/useofcolor-pass/400/240',
+                uri: 'https://picsum.photos/seed/useofcolor pass/400/240',
                 alt: 'Link with an icon and a visible text label',
-                caption: 'Not color-only (has icon/text)',
+                caption: 'Not color only (has icon/text)',
                 isPassing: true,
             },
             {
                 id: 'fail',
-                uri: 'https://picsum.photos/seed/useofcolor-fail/400/240',
+                uri: 'https://picsum.photos/seed/useofcolor fail/400/240',
                 alt: 'Link that changes color only with no text or icon cue',
-                caption: 'Color-only cue',
+                caption: 'Color only cue',
                 isPassing: false,
             },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#use-of-color',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/use of color.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#use of color',
     }
 );
 
@@ -307,21 +345,21 @@ const sc_1_4_3 = new SuccessCriterion(
     '1.4.3',
     'Contrast (Minimum)',
     'AA',
-    'Normal-size text should be at least 4.5:1 contrast. Large text (≥18pt regular or ≥14pt bold) can be 3:1.',
+    'Normal size text should be at least 4.5:1 contrast. Large text (≥18pt regular or ≥14pt bold) can be 3:1.',
     {
         type: '',
         note: 'Examples for SC 1.4.3',
         items: [
             {
                 id: 'pass',
-                uri: 'https://picsum.photos/seed/contrast-pass/400/240',
+                uri: 'https://picsum.photos/seed/contrast pass/400/240',
                 alt: 'Dark gray text on white background',
                 caption: 'Pass: 4.8:1 ≥ 4.5:1',
                 isPassing: true,
             },
             {
                 id: 'fail',
-                uri: 'https://picsum.photos/seed/contrast-fail/400/240',
+                uri: 'https://picsum.photos/seed/contrast fail/400/240',
                 alt: 'Light gray text on white background',
                 caption: 'Fail: 2.2:1 < 4.5:1',
                 isPassing: false,
@@ -329,8 +367,8 @@ const sc_1_4_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#contrast-minimum',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/contrast minimum.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#contrast minimum',
     }
 );
 
@@ -398,12 +436,12 @@ const p1 = new Principle(
     [g_1_1, g_1_2, g_1_3, g_1_4]
 );
 
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 /*                                PRINCIPLE 2                                 */
 /*                                (Operable)                                  */
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 
-/* ---------- 2.1 Keyboard Accessible ---------- */
+/*            2.1 Keyboard Accessible            */
 const sc_2_1_1 = new SuccessCriterion(
     '2.1.1',
     'Keyboard',
@@ -437,8 +475,8 @@ const sc_2_1_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#no-keyboard-trap',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/no keyboard trap.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#no keyboard trap',
     }
 );
 
@@ -446,18 +484,18 @@ const sc_2_1_4 = new SuccessCriterion(
     '2.1.4',
     'Character Key Shortcuts',
     'A',
-    'Single-character shortcuts can be turned off, remapped, or only active on focus.',
+    'Single character shortcuts can be turned off, remapped, or only active on focus.',
     {
         type: '',
         note: 'Examples for SC 2.1.4',
         items: [
             { id: 'pass', uri: 'pass_2_1_4.png', alt: 'Shortcut customization UI', caption: 'Shortcuts can be remapped', isPassing: true },
-            { id: 'fail', uri: 'fail_2_1_4.png', alt: 'Global single-key shortcuts', caption: 'No way to disable/remap', isPassing: false },
+            { id: 'fail', uri: 'fail_2_1_4.png', alt: 'Global single key shortcuts', caption: 'No way to disable/remap', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#character-key-shortcuts',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/character key shortcuts.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#character key shortcuts',
     }
 );
 
@@ -469,7 +507,7 @@ const g_2_1 = new Guideline(
     null
 );
 
-/* ---------- 2.2 Enough Time ---------- */
+/*            2.2 Enough Time            */
 const sc_2_2_1 = new SuccessCriterion(
     '2.2.1',
     'Timing Adjustable',
@@ -484,8 +522,8 @@ const sc_2_2_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#timing-adjustable',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/timing adjustable.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#timing adjustable',
     }
 );
 
@@ -493,18 +531,18 @@ const sc_2_2_2 = new SuccessCriterion(
     '2.2.2',
     'Pause, Stop, Hide',
     'A',
-    'Moving, blinking, scrolling, or auto-updating content can be paused, stopped, or hidden.',
+    'Moving, blinking, scrolling, or auto updating content can be paused, stopped, or hidden.',
     {
         type: '',
         note: 'Examples for SC 2.2.2',
         items: [
             { id: 'pass', uri: 'pass_2_2_2.png', alt: 'Carousel with pause control', caption: 'User can pause animation', isPassing: true },
-            { id: 'fail', uri: 'fail_2_2_2.png', alt: 'Auto-rotating carousel', caption: 'No pause/stop/hide control', isPassing: false },
+            { id: 'fail', uri: 'fail_2_2_2.png', alt: 'Auto rotating carousel', caption: 'No pause/stop/hide control', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#pause-stop-hide',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pause stop hide.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#pause stop hide',
     }
 );
 
@@ -536,7 +574,7 @@ const g_2_2 = new Guideline(
     null
 );
 
-/* ---------- 2.3 Seizures and Physical Reactions ---------- */
+/*            2.3 Seizures and Physical Reactions            */
 const sc_2_3_1 = new SuccessCriterion(
     '2.3.1',
     'Three Flashes or Below Threshold',
@@ -546,13 +584,13 @@ const sc_2_3_1 = new SuccessCriterion(
         type: '',
         note: 'Examples for SC 2.3.1',
         items: [
-            { id: 'pass', uri: 'pass_2_3_1.png', alt: 'No flashing', caption: 'No seizure-triggering flashes', isPassing: true },
+            { id: 'pass', uri: 'pass_2_3_1.png', alt: 'No flashing', caption: 'No seizure triggering flashes', isPassing: true },
             { id: 'fail', uri: 'fail_2_3_1.png', alt: 'Rapid flashing content', caption: 'Flashes exceed threshold', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#three-flashes-or-below-threshold',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/three flashes or below threshold.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#three flashes or below threshold',
     }
 );
 
@@ -563,15 +601,15 @@ const sc_2_3_3 = new SuccessCriterion(
     'Motion animation triggered by interaction can be disabled.',
     {
         type: '',
-        note: 'Examples for SC 2.3.3 (AAA - remove if not desired)',
+        note: 'Examples for SC 2.3.3 (AAA   remove if not desired)',
         items: [
             { id: 'pass', uri: 'pass_2_3_3.png', alt: 'Setting to reduce motion', caption: 'User can disable motion', isPassing: true },
             { id: 'fail', uri: 'fail_2_3_3.png', alt: 'No motion control', caption: 'Motion cannot be disabled', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#animation-from-interactions',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/animation from interactions.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#animation from interactions',
     }
 );
 
@@ -583,7 +621,7 @@ const g_2_3 = new Guideline(
     null
 );
 
-/* ---------- 2.4 Navigable ---------- */
+/*            2.4 Navigable            */
 const sc_2_4_1 = new SuccessCriterion(
     '2.4.1',
     'Bypass Blocks',
@@ -598,8 +636,8 @@ const sc_2_4_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#bypass-blocks',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/bypass blocks.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#bypass blocks',
     }
 );
 
@@ -617,8 +655,8 @@ const sc_2_4_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#focus-order',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/focus order.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#focus order',
     }
 );
 
@@ -636,8 +674,8 @@ const sc_2_4_5 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/multiple-ways.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#multiple-ways',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/multiple ways.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#multiple ways',
     }
 );
 
@@ -649,23 +687,23 @@ const g_2_4 = new Guideline(
     null
 );
 
-/* ---------- 2.5 Input Modalities ---------- */
+/*            2.5 Input Modalities            */
 const sc_2_5_1 = new SuccessCriterion(
     '2.5.1',
     'Pointer Gestures',
     'A',
-    'All functionality that uses complex gestures can be operated with a single pointer without path-based gestures.',
+    'All functionality that uses complex gestures can be operated with a single pointer without path based gestures.',
     {
         type: '',
         note: 'Examples for SC 2.5.1',
         items: [
-            { id: 'pass', uri: 'pass_2_5_1.png', alt: 'Alternative to pinch-zoom', caption: 'Provide simple pointer alternative', isPassing: true },
-            { id: 'fail', uri: 'fail_2_5_1.png', alt: 'Only path-based gesture', caption: 'No simple alternative', isPassing: false },
+            { id: 'pass', uri: 'pass_2_5_1.png', alt: 'Alternative to pinch zoom', caption: 'Provide simple pointer alternative', isPassing: true },
+            { id: 'fail', uri: 'fail_2_5_1.png', alt: 'Only path based gesture', caption: 'No simple alternative', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pointer-gestures.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#pointer-gestures',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pointer gestures.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#pointer gestures',
     }
 );
 
@@ -673,7 +711,7 @@ const sc_2_5_2 = new SuccessCriterion(
     '2.5.2',
     'Pointer Cancellation',
     'A',
-    'For functionality that can be operated with a single pointer, at least one of: no down-event activation, abort/cancel, or undo.',
+    'For functionality that can be operated with a single pointer, at least one of: no down event activation, abort/cancel, or undo.',
     {
         type: '',
         note: 'Examples for SC 2.5.2',
@@ -683,8 +721,8 @@ const sc_2_5_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#pointer-cancellation',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/pointer cancellation.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#pointer cancellation',
     }
 );
 
@@ -702,8 +740,8 @@ const sc_2_5_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#label-in-name',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/label in name.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#label in name',
     }
 );
 
@@ -723,12 +761,12 @@ const p2 = new Principle(
     [g_2_1, g_2_2, g_2_3, g_2_4, g_2_5]
 );
 
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 /*                               PRINCIPLE 3                                  */
 /*                             (Understandable)                               */
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 
-/* ---------- 3.1 Readable ---------- */
+/*            3.1 Readable            */
 const sc_3_1_1 = new SuccessCriterion(
     '3.1.1',
     'Language of Page',
@@ -743,8 +781,8 @@ const sc_3_1_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#language-of-page',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/language of page.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#language of page',
     }
 );
 
@@ -762,8 +800,8 @@ const sc_3_1_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/W3C/WAI/WCAG21/Understanding/language-of-parts.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#language-of-parts',
+        understandingUrl: 'https://www.w3.org/W3C/WAI/WCAG21/Understanding/language of parts.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#language of parts',
     }
 );
 
@@ -784,7 +822,7 @@ const g_3_1 = new Guideline(
     null
 );
 
-/* ---------- 3.2 Predictable ---------- */
+/*            3.2 Predictable            */
 const sc_3_2_1 = new SuccessCriterion(
     '3.2.1',
     'On Focus',
@@ -799,8 +837,8 @@ const sc_3_2_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#on-focus',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/on focus.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#on focus',
     }
 );
 
@@ -813,13 +851,13 @@ const sc_3_2_2 = new SuccessCriterion(
         type: '',
         note: 'Examples for SC 3.2.2',
         items: [
-            { id: 'pass', uri: 'pass_3_2_2.png', alt: 'Input requires explicit submit', caption: 'No auto-redirect on change', isPassing: true },
-            { id: 'fail', uri: 'fail_3_2_2.png', alt: 'Select auto-navigates', caption: 'Change triggers context switch', isPassing: false },
+            { id: 'pass', uri: 'pass_3_2_2.png', alt: 'Input requires explicit submit', caption: 'No auto redirect on change', isPassing: true },
+            { id: 'fail', uri: 'fail_3_2_2.png', alt: 'Select auto navigates', caption: 'Change triggers context switch', isPassing: false },
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/on-input.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#on-input',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/on input.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#on input',
     }
 );
 
@@ -837,8 +875,8 @@ const sc_3_2_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/consistent-navigation.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#consistent-navigation',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/consistent navigation.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#consistent navigation',
     }
 );
 
@@ -850,7 +888,7 @@ const g_3_2 = new Guideline(
     null
 );
 
-/* ---------- 3.3 Input Assistance ---------- */
+/*            3.3 Input Assistance            */
 const sc_3_3_1 = new SuccessCriterion(
     '3.3.1',
     'Error Identification',
@@ -865,8 +903,8 @@ const sc_3_3_1 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/error-identification.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#error-identification',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/error identification.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#error identification',
     }
 );
 
@@ -884,8 +922,8 @@ const sc_3_3_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#labels-or-instructions',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/labels or instructions.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#labels or instructions',
     }
 );
 
@@ -903,8 +941,8 @@ const sc_3_3_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#error-suggestion',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/error suggestion.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#error suggestion',
     }
 );
 
@@ -924,12 +962,12 @@ const p3 = new Principle(
     [g_3_1, g_3_2, g_3_3]
 );
 
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 /*                                PRINCIPLE 4                                 */
 /*                                 (Robust)                                   */
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 
-/* ---------- 4.1 Compatible ---------- */
+/*            4.1 Compatible            */
 const sc_4_1_1 = new SuccessCriterion(
     '4.1.1',
     'Parsing',
@@ -963,8 +1001,8 @@ const sc_4_1_2 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#name-role-value',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/name role value.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#name role value',
     }
 );
 
@@ -982,8 +1020,8 @@ const sc_4_1_3 = new SuccessCriterion(
         ],
     },
     {
-        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html',
-        specUrl: 'https://www.w3.org/TR/WCAG21/#status-messages',
+        understandingUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/status messages.html',
+        specUrl: 'https://www.w3.org/TR/WCAG21/#status messages',
     }
 );
 
@@ -1004,7 +1042,7 @@ const p4 = new Principle(
 );
 
 
-/* -------------------------------------------------------------------------- */
+/*                                                                            */
 
 const PRINCIPLES = [p1, p2, p3, p4];
 
