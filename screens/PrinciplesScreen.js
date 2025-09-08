@@ -73,9 +73,10 @@ export default function PrinciplesScreen() {
                 <View accessibilityRole="list" style={styles.list}>
                     {principles.map((p) => (
                         <Pressable
+                            accessible={true}
                             key={p.id}
                             accessibilityRole="button"
-                            accessibilityLabel={`${p.id}. ${p.title}`}
+                            accessibilityLabel={`${p.id}. ${p.title}  ${p.summary}`}
                             onPress={() => nav.navigate('Guidelines', { principleId: p.id })}
                             style={styles.card}
                         >
@@ -109,12 +110,14 @@ export default function PrinciplesScreen() {
 
             {/* TO DELETEEEEEE /////// */}
             <Pressable
+                accessible={false}
                 onLongPress={async () => {
+
                     await resetProgress();
                     await clearStorage()
                     nav.reset({ index: 0, routes: [{ name: 'Onboarding' }] });
                 }} >
-                <Text style={{ color: colors.link, alignSelf: 'center' }}>●●●</Text>
+                <Text style={{ color: colors.link, alignSelf: 'center', height: 50 }}></Text>
             </Pressable>
 
         </View>
@@ -123,7 +126,16 @@ export default function PrinciplesScreen() {
 const styles = StyleSheet.create({
     screen: { flex: 1, padding: 16, backgroundColor: colors.background, gap: 16 },
     list: { gap: 12 },
-    card: { backgroundColor: colors.surface, padding: 16, borderRadius: 12 },
-    title: { color: colors.text, fontWeight: '700', marginBottom: 6 },
+    card: {
+        marginHorizontal: 5,
+        backgroundColor: colors.surface, padding: 16, borderRadius: 12,
+        shadowColor: '#111',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        // Android
+        elevation: 4,
+    },
+    title: { color: colors.text, fontWeight: '700', marginBottom: 6, fontSize: 20 },
     summary: { color: colors.textSubtle },
 });

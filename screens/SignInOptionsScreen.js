@@ -29,7 +29,7 @@ export default function SignInOptionsScreen() {
             <ScrollView>
                 <View style={styles.screen}>
 
-                    <Text style={styles.copy}>
+                    <Text accessibilityLabel="Sign in is currently unavailable, but you can continue as a guest." style={styles.copy}>
                         Sign in is currently unavailable, but you can continue as a guest.
                     </Text>
 

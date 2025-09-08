@@ -57,9 +57,17 @@ export default function GuidelinesScreen() {
                 <View accessibilityRole="list" style={styles.list}>
                     {guidelines.map((g) => (
                         <Pressable
+                            accessible={true}
                             key={g.id}
                             accessibilityRole="button"
-                            accessibilityLabel={`${g.id} ${g.title}`}
+                            accessibilityLabel={`${g.id}. ${g.title}. ${g.successCriteria?.length || 0} success criteria.`}
+                            accessibilityHint="Opens the first success criterion"
+                            accessibilityValue={{
+                                min: 0,
+                                max: 100,
+                                now: Math.round((progressMap[g.id] ?? 0) * 100),
+                                text: `${Math.round((progressMap[g.id] ?? 0) * 100)}% complete`,
+                            }}
                             onPress={() => nav.navigate('SCDetail', {
                                 principleId,
                                 guidelineId: g.id,
@@ -72,7 +80,7 @@ export default function GuidelinesScreen() {
 
                             {/* Progresss BAR */}
                             <View style={{ marginTop: 8 }}>
-                                <ProgressBar value={progressMap[g.id] ?? 0} showLabel />
+                                <ProgressBar accessible={false} value={progressMap[g.id] ?? 0} showLabel />
                             </View>
                         </Pressable>
                     ))}
@@ -85,7 +93,16 @@ export default function GuidelinesScreen() {
 const styles = StyleSheet.create({
     screen: { flex: 1, padding: 16, backgroundColor: colors.background, gap: 16 },
     list: { gap: 12 },
-    card: { backgroundColor: colors.surface, padding: 16, borderRadius: 12 },
-    title: { color: colors.text, fontWeight: '700', marginBottom: 6 },
+    card: {
+        marginHorizontal: 5,
+        backgroundColor: colors.surface, padding: 16, borderRadius: 12,
+        shadowColor: '#111',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        // Android
+        elevation: 4,
+    },
+    title: { color: colors.text, fontWeight: '700', marginBottom: 6, fontSize: 20 },
     summary: { color: colors.textSubtle },
 });

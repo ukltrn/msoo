@@ -12,7 +12,6 @@ export default function SCDetailScreen() {
     const navigation = useNavigation();
     const { principleId, guidelineId, scId } = params || {};
 
-    // Load all SCs in this guideline
     const allSC = getSCs(principleId, guidelineId);
     const startIndex = Math.max(0, allSC.findIndex((x) => x.id === scId));
     const [index, setIndex] = useState(startIndex);
@@ -66,14 +65,15 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
                     </View>
                     {!!sc.description && <Text style={styles.p}>{sc.description}</Text>}
 
-                    {renderImagesExample(sc.example)}
+                    {renderExample(sc.example)}
 
                     <View style={styles.links}>
                         <Text style={styles.h6}>Learn more</Text>
                         {!!sc.resources?.understandingUrl && (
                             <Pressable
                                 accessibilityRole="link"
-                                accessibilityLabel="Open Understanding document"
+                                accessibilityLabel="W3C Understanding"
+                                accessibilityHint="Open W3C Understanding"
                                 onPress={() => Linking.openURL(sc.resources.understandingUrl)}
                             >
                                 <Text style={styles.link}>W3C Understanding</Text>
@@ -82,7 +82,8 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
                         {!!sc.resources?.specUrl && (
                             <Pressable
                                 accessibilityRole="link"
-                                accessibilityLabel="Open WCAG spec"
+                                accessibilityLabel="WCAG spec"
+                                accessibilityHint="Open WCAG spec"
                                 onPress={() => Linking.openURL(sc.resources.specUrl)}
                             >
                                 <Text style={styles.link}>WCAG Spec</Text>
@@ -117,8 +118,8 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
     );
 }
 
-function renderImagesExample(example) {
-    if (!example || example.type !== 'images') {
+function renderExample(example) {
+    if (!example) {
         return (
             <View style={styles.card}>
                 <Text style={styles.subtle}>Example coming soon.</Text>
@@ -126,21 +127,49 @@ function renderImagesExample(example) {
         );
     }
 
-    return (
-        <View style={styles.stackSm}>
-            {example.note ? <Text style={styles.subtle}>{example.note}</Text> : null}
-            <View style={styles.stackSm}>
-                {example.items.map((it) => (
-                    <View key={it.id} style={styles.exampleCard}>
-                        <Image source={it.uri} accessibilityLabel={it.alt} style={styles.exampleImg} />
-                        <View style={[styles.exampleCapWrap, it.isPassing ? styles.exampleCapPass : styles.exampleCapFail]}>
-                            <Text style={styles.exampleCapText}>
-                                {it.isPassing ? '✓ Pass: ' : '✗ Fail: '}{it.caption}
-                            </Text>
-                        </View>
-                    </View>
-                ))}
+    const renderCard = (it, key = it?.id || 'single') => {
+        if (!it?.uri) return null;
+        const isPassing = it.isPassing ?? true;
+        return (
+            <View key={key} style={styles.exampleCard}>
+                <Image
+                    source={it.uri}
+                    accessibilityLabel={it.alt}
+                    style={styles.exampleImg}
+                    accessibilityIgnoresInvertColors
+                />
+                <View style={[styles.exampleCapWrap, isPassing ? styles.exampleCapPass : styles.exampleCapFail]}>
+                    <Text style={styles.exampleCapText}>
+                        {isPassing ? 'Pass: ' : 'Fail: '}{it.caption}
+                    </Text>
+                </View>
             </View>
+        );
+    };
+
+    if (example.type === 'image' && example.item) {
+        return (
+            <View style={styles.stackSm}>
+                {example.note ? <Text style={styles.subtle}>{example.note}</Text> : null}
+                {renderCard(example.item)}
+            </View>
+        );
+    }
+
+    if (example.type === 'images' && Array.isArray(example.items)) {
+        return (
+            <View style={styles.stackSm}>
+                {example.note ? <Text style={styles.subtle}>{example.note}</Text> : null}
+                <View style={styles.stackSm}>
+                    {example.items.map((it, idx) => renderCard(it, it.id ?? String(idx)))}
+                </View>
+            </View>
+        );
+    }
+
+    return (
+        <View style={styles.card}>
+            <Text style={styles.subtle}>Example coming soon.</Text>
         </View>
     );
 }
@@ -157,7 +186,7 @@ const styles = StyleSheet.create({
 
     links: { gap: 6, marginTop: 8 },
     h6: { color: colors.text, fontWeight: '600', fontSize: 18 },
-    link: { color: colors.link, fontSize: 18 },
+    link: { color: colors.link, fontSize: 18, padding: 6 },
 
     row: { flexDirection: 'row', gap: 6, marginTop: 12 },
     primaryBtn: { backgroundColor: colors.primary, borderRadius: 15, paddingVertical: 14, alignItems: 'center', flex: 1 },
@@ -172,5 +201,5 @@ const styles = StyleSheet.create({
     exampleCapFail: { backgroundColor: colors.error },
     exampleCapPass: { backgroundColor: colors.success },
     exampleCapWrap: { padding: 12 },
-    exampleCapText: { color: colors.text, fontWeight: '600' },
+    exampleCapText: { color: '#000', fontWeight: '600' },
 });

@@ -288,8 +288,12 @@ const styles = StyleSheet.create({
         marginVertical: 14,
         alignItems: 'center',
     },
-    secondaryBtnText: { color: colors.text },
-    btnDisabled: { opacity: 0.6 },
+    secondaryBtnText: {
+        color: colors.text,
+        fontWeight: '700',
+        fontSize: 18
+    },
+    btnDisabled: { opacity: 0.7 },
 
     card: { backgroundColor: colors.surface, borderRadius: 12, padding: 12 },
 });

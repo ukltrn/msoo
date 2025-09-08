@@ -16,6 +16,7 @@ export function AppHeader({ title, showBack, onBack, right }) {
         <View style={styles.root} accessibilityRole="header">
             {showBackFinal ? (
                 <Pressable
+                    accessible={true}
                     accessibilityRole="button"
                     accessibilityLabel="Go back"
                     accessibilityHint="Navigates to the previous screen"
@@ -45,14 +46,15 @@ export function AppHeader({ title, showBack, onBack, right }) {
 const styles = StyleSheet.create({
     root: {
         paddingVertical: 12,
+        paddingHorizontal: 8,
         flexDirection: 'row',
         alignItems: 'center',
     },
     backBtn: {
-        minWidth: 40,
+        minWidth: 48,
         paddingVertical: 8,
     },
-    backText: { color: colors.link, fontSize: 20, fontWeight: '700' },
+    backText: { color: colors.link, fontSize: 20, fontWeight: '700', padding: 6 },
     title: {
         flex: 1,
         textAlign: 'center',
