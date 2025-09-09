@@ -126,7 +126,9 @@ export default function QuizScreen() {
                 <>
                     <ScrollView>
                         <View style={styles.stack}>
-                            <Text style={styles.meta}>Question {i + 1} of {qs.length}</Text>
+                            <Text
+                                accessibilityLabel={`Question ${i + 1} of ${qs.length}`}
+                                style={styles.meta}>Question {i + 1} of {qs.length}</Text>
 
                             <Text
                                 ref={stemRef}
@@ -140,7 +142,6 @@ export default function QuizScreen() {
                                 {q.options.map(opt => {
                                     const isSel = selected === opt.id;
                                     const isRight = !!opt.isCorrect;
-
 
                                     let boxStyle = styles.optionIdle;
                                     let textStyle = styles.optionText;

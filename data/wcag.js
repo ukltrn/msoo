@@ -75,12 +75,12 @@ const sc_1_1_1c = new SuccessCriterion(
     'Purely decorative images should be hidden from assistive technologies (empty alt / not focusable).',
     {
         type: 'images',
-        note: 'Examples for 1.1.1c   Decorative images',
+        note: 'Examples for 1.1.1c Decorative images',
         items: [
             {
                 id: 'pass',
                 uri: require('../assets/examples/pass_1_1_1_c.png'),
-                alt: '',
+                alt: 'Example of Decorative illustration without alt',
                 caption: 'Decoration is ignored by assistive tech (empty alt).',
                 isPassing: true,
             },

@@ -17,7 +17,6 @@ export default function SCDetailScreen() {
     const [index, setIndex] = useState(startIndex);
     const sc = allSC[index];
 
-
     useEffect(() => {
         if (sc?.id) {
             announce(`${sc.id} ${sc.shortTitle} ${sc.level}`);
@@ -130,6 +129,8 @@ function renderExample(example) {
     const renderCard = (it, key = it?.id || 'single') => {
         if (!it?.uri) return null;
         const isPassing = it.isPassing ?? true;
+        let passing = isPassing ? 'Pass: ' : 'Fail: '
+        let caption = passing + it.caption
         return (
             <View key={key} style={styles.exampleCard}>
                 <Image
@@ -139,8 +140,10 @@ function renderExample(example) {
                     accessibilityIgnoresInvertColors
                 />
                 <View style={[styles.exampleCapWrap, isPassing ? styles.exampleCapPass : styles.exampleCapFail]}>
-                    <Text style={styles.exampleCapText}>
-                        {isPassing ? 'Pass: ' : 'Fail: '}{it.caption}
+                    <Text
+                        accessibilityLabel={caption}
+                        style={styles.exampleCapText}>
+                        {caption}
                     </Text>
                 </View>
             </View>
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
 
     links: { gap: 6, marginTop: 8 },
     h6: { color: colors.text, fontWeight: '600', fontSize: 18 },
-    link: { color: colors.link, fontSize: 18, padding: 6 },
+    link: { color: colors.link, fontWeight: '700', fontSize: 22, margin: 10 },
 
     row: { flexDirection: 'row', gap: 6, marginTop: 12 },
     primaryBtn: { backgroundColor: colors.primary, borderRadius: 15, paddingVertical: 14, alignItems: 'center', flex: 1 },

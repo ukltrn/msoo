@@ -22,7 +22,12 @@ export default function ResultBadge({ pct = 0 }) {
             accessibilityLabel={`${title}. Score ${pct} percent.`}
             style={styles.wrap}
         >
-            <Image source={IMAGES[key]} style={styles.img} resizeMode="contain" />
+            <Image
+                accessible
+                accessibilityLabel="Illustration!"
+                source={IMAGES[key]}
+                style={styles.img}
+                resizeMode="contain" />
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.sub}>{pct}%</Text>
         </View>

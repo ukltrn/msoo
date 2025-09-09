@@ -80,7 +80,7 @@ export default function GuidelinesScreen() {
 
                             {/* Progresss BAR */}
                             <View style={{ marginTop: 8 }}>
-                                <ProgressBar accessible={false} value={progressMap[g.id] ?? 0} showLabel />
+                                <ProgressBar value={progressMap[g.id] ?? 0} showLabel />
                             </View>
                         </Pressable>
                     ))}

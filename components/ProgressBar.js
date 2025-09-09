@@ -6,9 +6,8 @@ export function ProgressBar({ value = 0, height = 10, showLabel = true }) {
 
   return (
     <View
-      accessible
+      accessible={false}
       accessibilityRole="progressbar"
-      accessibilityLabel={`Progress ${pct} percent`}
       style={styles.wrap}
     >
       <View style={[styles.track, { height, borderRadius: height / 2 }]}>

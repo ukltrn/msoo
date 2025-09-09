@@ -77,6 +77,12 @@ export default function PrinciplesScreen() {
                             key={p.id}
                             accessibilityRole="button"
                             accessibilityLabel={`${p.id}. ${p.title}  ${p.summary}`}
+                            accessibilityValue={{
+                                min: 0,
+                                max: 100,
+                                now: Math.round((principleMap[p.id] ?? 0) * 100),
+                                text: `${Math.round((principleMap[p.id] ?? 0) * 100)}% complete`,
+                            }}
                             onPress={() => nav.navigate('Guidelines', { principleId: p.id })}
                             style={styles.card}
                         >
