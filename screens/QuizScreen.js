@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, AccessibilityInfo, findNodeHandle, ScrollView } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { AppHeader } from '../components/AppHeader';
-import { colors } from '../theme';
-import { announce } from '../helpers/a11y';
-import { getGuideline } from '../data/wcag';
 
+import { AppHeader } from '../components/AppHeader';
 import ResultBadge from '../components/ResultBadge';
+
+import { colors } from '../theme';
+import { getGuideline } from '../data/wcag';
+import { announce } from '../helpers/a11y';
+import { pickRandomArray } from '../helpers/helpers'
 
 export default function QuizScreen() {
     const { params } = useRoute();
@@ -19,7 +21,7 @@ export default function QuizScreen() {
     const qs = useMemo(() => {
         const rnd = 3 + Math.floor(Math.random() * 3);
         const count = Math.min(questions.length, rnd);
-        return sampleWithoutReplacement(questions, count);
+        return pickRandomArray(questions, count);
     }, [guidelineId, questions.length]);
 
     const [i, setI] = useState(0);
@@ -124,7 +126,7 @@ export default function QuizScreen() {
 
             {!done ? (
                 <>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.stack}>
                             <Text
                                 accessibilityLabel={`Question ${i + 1} of ${qs.length}`}
@@ -196,10 +198,12 @@ export default function QuizScreen() {
                             {i < qs.length - 1 ? 'Next' : 'Submit'}
                         </Text>
                     </Pressable>
+
+
                 </>
             ) : (
                 <>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.stack}>
                             <View ref={feedbackRef} accessible accessibilityRole="summary">
 
@@ -231,17 +235,6 @@ export default function QuizScreen() {
             }
         </View >
     );
-}
-
-function sampleWithoutReplacement(arr, n) {
-    const copy = [...arr];
-    const out = [];
-    const k = Math.min(n, copy.length);
-    for (let i = 0; i < k; i++) {
-        const idx = Math.floor(Math.random() * copy.length);
-        out.push(copy.splice(idx, 1)[0]);
-    }
-    return out;
 }
 
 const styles = StyleSheet.create({

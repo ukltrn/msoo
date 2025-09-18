@@ -80,7 +80,7 @@ const sc_1_1_1c = new SuccessCriterion(
             {
                 id: 'pass',
                 uri: require('../assets/examples/pass_1_1_1_c.png'),
-                alt: '',
+                alt: 'Shembull i ilustrimit dekorativ pa tekst alternativ',
                 caption: 'Dekori injorohet nga AT (alt bosh).',
                 isPassing: true,
             },

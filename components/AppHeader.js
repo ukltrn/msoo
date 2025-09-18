@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../theme';
 
-export function AppHeader({ title, showBack, onBack, right }) {
+export function AppHeader({ title, showBack, onBack }) {
     const nav = useNavigation();
     const canGoBack = nav.canGoBack();
     const showBackFinal = (showBack === undefined ? canGoBack : showBack);
@@ -16,10 +16,9 @@ export function AppHeader({ title, showBack, onBack, right }) {
         <View style={styles.root} accessibilityRole="header">
             {showBackFinal ? (
                 <Pressable
-                    accessible={true}
                     accessibilityRole="button"
                     accessibilityLabel="Go back"
-                    accessibilityHint="Navigates to the previous screen"
+                    accessibilityHint="Navigates to the previous screen."
                     accessibilityState={{ disabled: !canGoBack }}
                     disabled={!canGoBack}
                     onPress={handleBack}
@@ -36,9 +35,8 @@ export function AppHeader({ title, showBack, onBack, right }) {
                 {title}
             </Text>
 
-            <View style={styles.right}>
-                {right ?? null}
-            </View>
+            <View style={styles.right} />
+
         </View>
     );
 }
@@ -49,21 +47,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         flexDirection: 'row',
         alignItems: 'center',
+        marginTop: 20,
     },
-    backBtn: {
-        minWidth: 48,
-        paddingVertical: 8,
-    },
-    backText: { color: colors.link, fontSize: 20, fontWeight: '700', padding: 6 },
+    backBtn: { minWidth: 48, paddingVertical: 8, },
+    backText: { color: colors.primary, fontSize: 20, fontWeight: '700', padding: 6 },
     title: {
         flex: 1,
         textAlign: 'center',
         color: colors.text,
         fontSize: 20,
         fontWeight: '700',
+        paddingVertical: 8,
     },
-    right: {
-        minWidth: 40,
-        alignItems: 'flex-end',
-    },
+    right: { minWidth: 48, alignItems: 'flex-end', },
 });

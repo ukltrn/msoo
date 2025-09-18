@@ -1,28 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const KEY_ONBOARD = 'hasOnboarded';
-const KEY_AUTH = 'authMethod';
+const hasOnboarded = 'hasOnboarded';
+const signInMethod = 'signInMethod';
 
 export async function getHasOnboarded() {
-    try { return (await AsyncStorage.getItem(KEY_ONBOARD)) === 'true'; }
+    try { return (await AsyncStorage.getItem(hasOnboarded)) === 'true'; }
     catch { return false; }
 }
-export async function setHasOnboarded(v) {
-    try { await AsyncStorage.setItem(KEY_ONBOARD, v ? 'true' : 'false'); }
+export async function setHasOnboarded(value) {
+    try { await AsyncStorage.setItem(hasOnboarded, value ? 'true' : 'false'); }
     catch { }
 }
 
-export async function clearStorage(v) {
+export async function clearStorage() {
     try { await AsyncStorage.clear(); }
     catch { }
 }
 
 
-export async function getAuthMethod() {
-    try { return await AsyncStorage.getItem(KEY_AUTH); }
+export async function getSignInMethod() {
+    try { return await AsyncStorage.getItem(signInMethod); }
     catch { return null; }
 }
-export async function setAuthMethod(method) {
-    try { await AsyncStorage.setItem(KEY_AUTH, method); }
+export async function setSignInMethod(value) {
+    try { await AsyncStorage.setItem(signInMethod, value); }
     catch { }
 }

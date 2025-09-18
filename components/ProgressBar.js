@@ -1,44 +1,21 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme';
 
-export function ProgressBar({ value = 0, height = 10, showLabel = true }) {
-  const pct = Math.max(0, Math.min(100, value));
+export function ProgressBar({ value = 0, height = 10 }) {
 
   return (
-    <View
-      accessible={false}
-      accessibilityRole="progressbar"
-      style={styles.wrap}
-    >
+    <View accessibilityRole="progressbar" style={styles.wrap}>
       <View style={[styles.track, { height, borderRadius: height / 2 }]}>
-        <View
-          style={[
-            styles.fill,
-            { width: `${pct}%`, height, borderRadius: height / 2 }
-          ]}
-        />
+        <View style={[styles.fill, { width: `${value}%`, height, borderRadius: height / 2 }]} />
       </View>
-      {showLabel && (
-        <Text style={styles.label}>{pct}%</Text>
-      )}
+      <Text style={styles.label}>{value}%</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    width: '100%',
-    gap: 4,
-  },
-  track: {
-    backgroundColor: colors.border,
-    overflow: 'hidden',
-  },
-  fill: {
-    backgroundColor: colors.primary,
-  },
-  label: {
-    color: colors.textSubtle,
-    fontSize: 12,
-  },
+  wrap: { width: '100%', gap: 4, marginTop: 10 },
+  track: { backgroundColor: colors.border, overflow: 'hidden', },
+  fill: { backgroundColor: colors.primary, },
+  label: { color: colors.textSubtle, fontSize: 12, },
 });

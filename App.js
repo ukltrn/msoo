@@ -1,13 +1,11 @@
-import 'react-native-gesture-handler';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
-import { SafeAreaView, View, StyleSheet, ActivityIndicator, StatusBar } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { colors, ThemeProvider } from './theme';
+import { getHasOnboarded, getSignInMethod } from './helpers/storage';
 import { AnnouncementRegion } from './components/AnnouncementRegion';
-import { getHasOnboarded, getAuthMethod } from './helpers/storage';
 
 import OnboardingScreen from './screens/OnboardingScreen';
 import SignInOptionsScreen from './screens/SignInOptionsScreen';
@@ -22,21 +20,20 @@ const navTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.background,
   },
 };
 
 export default function App() {
   const [ready, setReady] = useState(false);
   const [hasOnboarded, setHasOnboarded] = useState(false);
-  const [authMethod, setAuthMethodState] = useState(null);
+  const [authMethod, setSignInMethod] = useState(null);
 
   useEffect(() => {
     (async () => {
       const onboard = await getHasOnboarded();
-      const auth = await getAuthMethod();
+      const auth = await getSignInMethod();
       setHasOnboarded(onboard);
-      setAuthMethodState(auth);
+      setSignInMethod(auth);
       setReady(true);
     })();
   }, []);
@@ -44,45 +41,38 @@ export default function App() {
   if (!ready) {
     return (
       <ThemeProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <SafeAreaView style={styles.root}>
-            <View style={styles.centered}>
-              <ActivityIndicator />
-            </View>
-          </SafeAreaView>
-        </GestureHandlerRootView>
+        <View style={styles.screen}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
       </ThemeProvider>
     );
   }
 
-  const initialRoute = !hasOnboarded ? 'Onboarding' : authMethod ? 'Principles' : 'SignInOptions';
+  const initialRoute = !hasOnboarded ? 'Onboarding' : !authMethod ? 'SignInOptions' : 'Principles';
 
   return (
     <ThemeProvider>
       <StatusBar style="light" />
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer theme={navTheme}>
+      <NavigationContainer theme={navTheme}>
+        <View style={styles.screen}>
           <AnnouncementRegion />
-          <SafeAreaView style={styles.root}>
-            <View style={styles.content}>
-              <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRoute}>
-                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-                <Stack.Screen name="SignInOptions" component={SignInOptionsScreen} />
-                <Stack.Screen name="Principles" component={PrinciplesScreen} />
-                <Stack.Screen name="Guidelines" component={GuidelinesScreen} />
-                <Stack.Screen name="SCDetail" component={SCDetailScreen} />
-                <Stack.Screen name="Quiz" component={QuizScreen} />
-              </Stack.Navigator>
-            </View>
-          </SafeAreaView>
-        </NavigationContainer>
-      </GestureHandlerRootView>
+          <View style={styles.content}>
+            <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRoute}>
+              <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+              <Stack.Screen name="SignInOptions" component={SignInOptionsScreen} />
+              <Stack.Screen name="Principles" component={PrinciplesScreen} />
+              <Stack.Screen name="Guidelines" component={GuidelinesScreen} />
+              <Stack.Screen name="SCDetail" component={SCDetailScreen} />
+              <Stack.Screen name="Quiz" component={QuizScreen} />
+            </Stack.Navigator>
+          </View>
+        </View>
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.background },
+  screen: { flex: 1, backgroundColor: colors.background, justifyContent: 'center', },
   content: { flex: 1, padding: 16 },
-  centered: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });

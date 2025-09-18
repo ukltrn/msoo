@@ -4,7 +4,6 @@ import { colors } from '../theme';
 export function Button({ label, hint, onPress, children, disabled }) {
     return (
         <Pressable
-            accessible
             accessibilityRole="button"
             accessibilityLabel={label}
             accessibilityHint={hint}
@@ -21,9 +20,11 @@ export function Button({ label, hint, onPress, children, disabled }) {
     );
 }
 const styles = StyleSheet.create({
-    base: { paddingVertical: 14, paddingHorizontal: 16, borderRadius: 12 },
+    base: { alignSelf: 'stretch', paddingVertical: 14, borderRadius: 12 },
     enabled: { backgroundColor: colors.primary },
-    disabled: { backgroundColor: '#475569' },
+    disabled: { opacity: 0.7 },
     pressed: { opacity: 0.9 },
-    text: { color: colors.onPrimary, fontWeight: '700', fontSize: 16, textAlign: 'center' },
+    text: {
+        color: colors.onPrimary, fontWeight: '700', fontSize: 18, textAlign: 'center'
+    },
 });

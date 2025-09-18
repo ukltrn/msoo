@@ -11,6 +11,7 @@ const IMAGES = {
 export default function ResultBadge({ pct = 0 }) {
     let key = 'try';
     let title = 'Keep practicing!';
+
     if (pct >= 90) { key = 'excellent'; title = 'Outstanding!'; }
     else if (pct >= 70) { key = 'great'; title = 'Great job!'; }
     else if (pct >= 45) { key = 'good'; title = 'Nice progress!'; }

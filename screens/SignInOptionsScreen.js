@@ -1,83 +1,67 @@
 import { useEffect } from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AppHeader } from '../components/AppHeader';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+
+import { Button } from '../components/Button'
 import { colors } from '../theme';
 import { announce } from '../helpers/a11y';
-import { setAuthMethod } from '../helpers/storage';
+import { setSignInMethod } from '../helpers/storage';
 
 export default function SignInOptionsScreen() {
     const nav = useNavigation();
-    const canGoBack = nav.canGoBack();
 
     useEffect(() => {
-        announce('Sign in options unavailable. You can continue as guest.');
+        announce("Sign in page!");
     }, []);
 
-    const goNext = () =>
-        nav.reset({ index: 0, routes: [{ name: 'Principles' }] });
+    const goNext = () => nav.reset({ index: 0, routes: [{ name: 'Principles' }] });
 
     const handleGuest = async () => {
-        announce('Continuing as guest');
-        await setAuthMethod('guest');
+        await setSignInMethod('guest');
         goNext();
     };
 
     return (
-        <>
-            <AppHeader title="Sign in" showBack={canGoBack} onBack={() => { if (nav.canGoBack()) nav.goBack(); }} />
-            <ScrollView>
-                <View style={styles.screen}>
+        <View style={styles.screen} >
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+                <Text style={styles.copy}>
+                    Sign in is currently unavailable, but you can continue as a guest.
+                </Text>
 
-                    <Text accessibilityLabel="Sign in is currently unavailable, but you can continue as a guest." style={styles.copy}>
-                        Sign in is currently unavailable, but you can continue as a guest.
-                    </Text>
+                <Image
+                    source={require('../assets/onboarding/signin.png')}
+                    style={styles.image}
+                    accessible={false}
+                    importantForAccessibility="no"
+                    accessibilityIgnoresInvertColors={true}
+                />
 
-                    <Image
-                        source={require('../assets/onboarding/signin.png')}
-                        style={styles.image}
-                        accessibilityLabel="Illustration: still building the app"
-                        accessibilityIgnoresInvertColors
-                    />
-
-                    <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel="Continue as guest"
-                        accessibilityHint="Skip sign in and start learning"
-                        onPress={handleGuest}
-                        style={({ pressed }) => [styles.btn, styles.primary, pressed && styles.pressed]}
-                    >
-                        <Text style={styles.btnTextPrimary}>Continue as guest</Text>
-                    </Pressable>
+                <View>
+                    <Button
+                        children="Continue as guest"
+                        hint="Skips sign in, to start learning!"
+                        onPress={handleGuest} />
 
                     <Text style={styles.terms}>
                         By continuing you agree to the demo terms. No real accounts are used.
                     </Text>
                 </View>
-            </ScrollView>
-        </>
+
+            </ScrollView >
+        </View >
     );
 }
 
 const styles = StyleSheet.create({
-    screen: { flex: 1, padding: 16, backgroundColor: colors.background, gap: 16, paddingTop: '30%' },
-    copy: { color: colors.text, textAlign: 'center', fontSize: 18 },
-    stack: { gap: 12 },
-
-    image: {
-        width: '50%',
-        resizeMode: 'contain',
-        marginVertical: '20%',
-        alignSelf: 'center'
+    screen: { flex: 1, backgroundColor: colors.background },
+    content: {
+        flex: 1,
+        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        gap: 20,
     },
-
-
-    btn: { borderRadius: 12, paddingVertical: 14, alignItems: 'center', borderWidth: 1 },
-    pressed: { opacity: 0.9 },
-
-    primary: { backgroundColor: colors.primary, borderColor: colors.primary },
-
-    btnTextPrimary: { color: colors.onPrimary, fontWeight: '700', fontSize: 16 },
-
+    copy: { color: colors.text, fontSize: 18, textAlign: 'center' },
+    image: { width: '70%', height: 220, resizeMode: 'contain', },
     terms: { color: colors.textSubtle, marginTop: 8, fontStyle: 'italic', textAlign: 'center' },
 });

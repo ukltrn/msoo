@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable, StyleSheet, Linking, ScrollView } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+
 import { AppHeader } from '../components/AppHeader';
+
 import { colors } from '../theme';
 import { getSCs } from '../data/wcag';
 import { announce } from '../helpers/a11y';
@@ -41,7 +43,7 @@ export default function SCDetailScreen() {
 
     return (
         <View style={styles.screen}>
-            <AppHeader title={`Guideline ${guidelineId}`} showBack />
+            <AppHeader title={`Guideline ${guidelineId}`} />
 
             <SCSection
                 sc={sc}
@@ -57,7 +59,7 @@ export default function SCDetailScreen() {
 function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
     return (
         <>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.stack}>
                     <View style={styles.row}>
                         <Text style={styles.scTitle}>{sc.id}: {sc.shortTitle}</Text><Text style={styles.scLevel}>({sc.level})</Text>
@@ -72,7 +74,7 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
                             <Pressable
                                 accessibilityRole="link"
                                 accessibilityLabel="W3C Understanding"
-                                accessibilityHint="Open W3C Understanding"
+                                accessibilityHint="Opens W3C Understanding"
                                 onPress={() => Linking.openURL(sc.resources.understandingUrl)}
                             >
                                 <Text style={styles.link}>W3C Understanding</Text>
@@ -81,11 +83,11 @@ function SCSection({ sc, onPrev, onNext, isFirst, isLast }) {
                         {!!sc.resources?.specUrl && (
                             <Pressable
                                 accessibilityRole="link"
-                                accessibilityLabel="WCAG spec"
-                                accessibilityHint="Open WCAG spec"
+                                accessibilityLabel="WCAG specifications"
+                                accessibilityHint="Opens WCAG specifications"
                                 onPress={() => Linking.openURL(sc.resources.specUrl)}
                             >
-                                <Text style={styles.link}>WCAG Spec</Text>
+                                <Text style={styles.link}>WCAG Specifications</Text>
                             </Pressable>
                         )}
                     </View>
@@ -139,7 +141,7 @@ function renderExample(example) {
                     style={styles.exampleImg}
                     accessibilityIgnoresInvertColors
                 />
-                <View style={[styles.exampleCapWrap, isPassing ? styles.exampleCapPass : styles.exampleCapFail]}>
+                <View style={isPassing ? styles.exampleCapPass : styles.exampleCapFail}>
                     <Text
                         accessibilityLabel={caption}
                         style={styles.exampleCapText}>
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
 
     links: { gap: 6, marginTop: 8 },
     h6: { color: colors.text, fontWeight: '600', fontSize: 18 },
-    link: { color: colors.link, fontWeight: '700', fontSize: 22, margin: 10 },
+    link: { color: colors.primary, fontWeight: '700', fontSize: 22, margin: 10 },
 
     row: { flexDirection: 'row', gap: 6, marginTop: 12 },
     primaryBtn: { backgroundColor: colors.primary, borderRadius: 15, paddingVertical: 14, alignItems: 'center', flex: 1 },
@@ -197,12 +199,11 @@ const styles = StyleSheet.create({
     secondaryBtn: { backgroundColor: colors.surface, borderRadius: 15, borderWidth: 1, borderColor: colors.primary, paddingVertical: 14, alignItems: 'center', flex: 1, fontWeight: '700' },
     secondaryBtnText: { color: colors.text },
     btnDisabled: { opacity: 0.6 },
-    card: { backgroundColor: colors.surface, borderRadius: 12, padding: 12 },
 
+    card: { backgroundColor: colors.surface, borderRadius: 12, padding: 12 },
     exampleCard: { backgroundColor: colors.surface, borderRadius: 12, overflow: 'hidden' },
-    exampleImg: { width: '100%', height: 200, backgroundColor: colors.surface, resizeMode: 'cover' },
+    exampleImg: { width: '100%', height: 200, resizeMode: 'cover' },
     exampleCapFail: { backgroundColor: colors.error },
     exampleCapPass: { backgroundColor: colors.success },
-    exampleCapWrap: { padding: 12 },
-    exampleCapText: { color: '#000', fontWeight: '600' },
+    exampleCapText: { color: colors.shadow, fontWeight: '600', padding: 12 },
 });

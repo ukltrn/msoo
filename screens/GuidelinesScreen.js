@@ -1,20 +1,19 @@
+import { useState, useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
-import { AppHeader } from '../components/AppHeader';
+import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
+
 import { colors } from '../theme';
-import { getPrinciples, getGuidelinesByPrinciple } from '../data/wcag';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { useEffect, useState, useMemo } from 'react';
-import { announce } from '../helpers/a11y';
-import { getViewed, computeProgressForSCs } from '../helpers/progress';
+
+import { AppHeader } from '../components/AppHeader';
 import { ProgressBar } from '../components/ProgressBar';
+
+import { getViewed, computeProgressForSCs } from '../helpers/progress';
+import { getPrinciples, getGuidelinesByPrinciple } from '../data/wcag';
+import { announce } from '../helpers/a11y';
 
 export default function GuidelinesScreen() {
     const { params } = useRoute();
     const nav = useNavigation();
-    const canGoBack = nav.canGoBack();
-
-    const [progressMap, setProgressMap] = useState({});
-
 
     const principles = useMemo(() => getPrinciples() || [], []);
     const defaultPrincipleId = principles[0]?.id ?? '1';
@@ -30,43 +29,53 @@ export default function GuidelinesScreen() {
         [principleId]
     );
 
-    useEffect(() => {
+    const [progressMap, setProgressMap] = useState({});
+
+    useFocusEffect(() => {
+        let active = true;
+
         (async () => {
             const viewed = await getViewed();
+            if (!active) return;
+
             const map = {};
             for (const g of guidelines) {
-                map[g.id] = computeProgressForSCs(viewed, g.successCriteria || []);
+                const scs = g.successCriteria || [];
+                map[g.id] = computeProgressForSCs(viewed, scs);
             }
+            if (!active) return;
             setProgressMap(map);
-        })();
-    }, [guidelines]);
 
-    useEffect(() => {
-        announce(`Guidelines for ${principle?.title || `Principle ${principleId}`}`);
-    }, [principleId, principle?.title]);
+            announce(`Guidelines for ${principle?.title || `Principle ${principleId}`}`);
+        })();
+
+        return () => { active = false; };
+    });
 
     return (
         <View style={styles.screen}>
             <AppHeader
                 title={principle?.title ? principle.title : `Principle ${principleId}`}
-                showBack={canGoBack}
                 onBack={() => nav.replace('Principles')}
             />
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
                 <View accessibilityRole="list" style={styles.list}>
-                    {guidelines.map((g) => (
-                        <Pressable
+
+                    {guidelines.map((g) => {
+                        const progress = Math.round((progressMap[g.id] ?? 0));
+
+                        return (<Pressable
                             accessible={true}
                             key={g.id}
                             accessibilityRole="button"
-                            accessibilityLabel={`${g.id}. ${g.title}. ${g.successCriteria?.length || 0} success criteria.`}
-                            accessibilityHint="Opens the first success criterion"
+                            accessibilityLabel={`${g.id}. ${g.title} ${(g.successCriteria || []).length} success criteria`}
+                            accessibilityHint="Opens the first success criterion!"
                             accessibilityValue={{
                                 min: 0,
                                 max: 100,
-                                now: Math.round((progressMap[g.id] ?? 0) * 100),
-                                text: `${Math.round((progressMap[g.id] ?? 0) * 100)}% complete`,
+                                now: progress,
+                                text: `${progress}% complete`,
                             }}
                             onPress={() => nav.navigate('SCDetail', {
                                 principleId,
@@ -80,10 +89,11 @@ export default function GuidelinesScreen() {
 
                             {/* Progresss BAR */}
                             <View style={{ marginTop: 8 }}>
-                                <ProgressBar value={progressMap[g.id] ?? 0} showLabel />
+                                <ProgressBar value={progressMap[g.id] ?? 0} />
                             </View>
                         </Pressable>
-                    ))}
+                        );
+                    })}
                 </View>
             </ScrollView>
         </View>
@@ -91,16 +101,16 @@ export default function GuidelinesScreen() {
 }
 
 const styles = StyleSheet.create({
-    screen: { flex: 1, padding: 16, backgroundColor: colors.background, gap: 16 },
+    screen: { flex: 1, paddingHorizontal: 16, backgroundColor: colors.background, gap: 16 },
     list: { gap: 12 },
     card: {
         marginHorizontal: 5,
-        backgroundColor: colors.surface, padding: 16, borderRadius: 12,
-        shadowColor: '#111',
+        backgroundColor: colors.card, padding: 16, borderRadius: 12,
+        shadowColor: colors.shadow,
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
-        // Android
+        //  Android
         elevation: 4,
     },
     title: { color: colors.text, fontWeight: '700', marginBottom: 6, fontSize: 20 },
